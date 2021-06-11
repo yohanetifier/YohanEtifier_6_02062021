@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const saucesRoutes = require('./routes/sauces'); 
 const userRoutes = require('./routes/user'); 
-const path = require('path')
+const path = require('path'); 
+const rateLimit = require('express-rate-limit')
+
+
 
 mongoose.connect('mongodb+srv://yohan:Eti300508@cluster0.dxnkf.mongodb.net/SoPekockoDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
