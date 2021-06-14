@@ -4,7 +4,10 @@ const bodyParser = require('body-parser');
 const saucesRoutes = require('./routes/sauces'); 
 const userRoutes = require('./routes/user'); 
 const path = require('path'); 
-const rateLimit = require('express-rate-limit')
+const session = require('cookie-session'); 
+const helmet = require('helmet'); 
+const express_enforces_ssl = require('express-enforces-ssl');
+const cors = require('cors');
 
 
 
@@ -30,4 +33,25 @@ mongoose.connect('mongodb+srv://yohan:Eti300508@cluster0.dxnkf.mongodb.net/SoPek
   app.use('/api/sauces',saucesRoutes); 
   app.use('/api/auth', userRoutes)
 
+  var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+
+app.use(session({
+  name: 'toto',
+  keys: ['key1', 'key2'],
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    path: 'api/auth',
+    expires: expiryDate
+  }}));
+
+  app.use(helmet.xssFilter());
+  app.use(helmet.frameguard({ action: 'deny' }));
+  app.use(helmet.noSniff());
+  app.use(express_enforces_ssl());
+  app.use(cors());
+  
+
+
+  
 module.exports = app; 
