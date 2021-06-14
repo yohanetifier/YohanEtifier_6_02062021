@@ -8,6 +8,7 @@ const session = require('cookie-session');
 const helmet = require('helmet'); 
 const express_enforces_ssl = require('express-enforces-ssl');
 const cors = require('cors');
+const mongoMask = require('mongo-mask');
 
 
 
@@ -33,9 +34,10 @@ mongoose.connect('mongodb+srv://yohan:Eti300508@cluster0.dxnkf.mongodb.net/SoPek
   app.use('/api/sauces',saucesRoutes); 
   app.use('/api/auth', userRoutes)
 
-  var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+  /* const sixtyDaysInSeconds = 5184000;
+  const expiryDate = new Date(Date.now() + 60 * 60 * 1000) */ // 1 hour
 
-app.use(session({
+/* app.use(session({
   name: 'toto',
   keys: ['key1', 'key2'],
   cookie: {
@@ -45,11 +47,13 @@ app.use(session({
     expires: expiryDate
   }}));
 
+ 
   app.use(helmet.xssFilter());
   app.use(helmet.frameguard({ action: 'deny' }));
   app.use(helmet.noSniff());
+  app.use(helmet.hsts({maxAge: sixtyDaysInSeconds}));
   app.use(express_enforces_ssl());
-  app.use(cors());
+  app.use(cors()); */
   
 
 
