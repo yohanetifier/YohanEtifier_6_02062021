@@ -5,6 +5,6 @@ const accountLimiter = require('./accountlimiter')
 
 
 router.post('/signup', userCtrl.signup)
-router .post('/login', accountLimiter,  userCtrl.login)
+router .post('/login',  userCtrl.login)
 
 module.exports = router; 

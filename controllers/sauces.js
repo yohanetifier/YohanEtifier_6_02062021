@@ -56,12 +56,13 @@ exports.createSauce = (req, res, next) => {
 
       if (req.body.like === 1){
         if (!sauce.likes){
-          Sauces.updateOne({ _id: req.params.id}, {$push: {usersLiked: req.body.userId}})
-        .then(() => res.status(200).json({ message:"in the array of likes"}))
-        .catch(error => res.status(400).json({ error }))
-        Sauces.updateOne({ _id: req.params.id}, {$set: {likes: 1}})
+          Sauces.updateOne({ _id: req.params.id}, {$set: {likes: 1}})
         .then(() => res.status(200).json({ message: 'first like'}))
         .catch(error => res.status(400).json({ error }))
+          Sauces.updateOne({ _id: req.params.id}, {$push: {usersLiked: req.body.userId}})
+        .then(() => res.status(200).json({ message: "in the array of likes"}))
+        .catch(error => res.status(400).json({ error }))
+        
         }else {
           Sauces.updateOne({ _id: req.params.id}, {$push: {usersLiked: req.body.userId}})
         .then(() => res.status(200).json({ message:"others like"}))
@@ -112,7 +113,11 @@ exports.createSauce = (req, res, next) => {
 
         }
       }
-      res.status(200).json({ message: "good"})
+      res.status(200).json({ message: "Le like a bien été comptabilisé" })
     }).catch(error => res.status(400).json({ error }))
 
     }
+
+   
+
+    
