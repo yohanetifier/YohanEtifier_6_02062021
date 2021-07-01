@@ -1,10 +1,14 @@
 const multer = require('multer'); 
 
+// Dictionnary to access the MIME Type of the img
+
 const MIME_TYPES = {
     'image/jpg': 'jpg', 
     'image/jpeg': 'jpg', 
     'image/png': 'png',
 }
+
+// Middleware to save a img
 
 const storage = multer.diskStorage({
     destination:  (req, file, callback) =>{

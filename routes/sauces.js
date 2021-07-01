@@ -6,7 +6,7 @@ const auth = require('../middleware/auth');
 const multer = require('../middleware/mutler-config'); 
 const rateLimit = require('express-rate-limit');
 
-
+// route for sauce
 
 router.post('/', auth, multer, sauceCtrl.createSauce)
 router.put('/:id', auth, multer, sauceCtrl.modifySauce);

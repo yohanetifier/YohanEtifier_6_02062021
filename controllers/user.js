@@ -1,11 +1,40 @@
 const User = require('../models/User'); 
 const bcrypt = require('bcrypt');
-/* const { resource } = require('../app'); */
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
+const passwordValidator = require('password-validator')
+
+/* Regex to validate email  */
+
+function validateEmail(email){
+    var emailReg = new RegExp(/^([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/i);
+    var valid = emailReg.test(email);
+
+    if(!valid) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+/* Check if the password is in good format */
+
+const schema = new passwordValidator()
+
+schema
+.is().min(8)                                    
+.is().max(50)                                  
+.has().uppercase()                              
+.has().lowercase()                              
+.has().digits(1)                                
+.has().not().spaces()                           
+.is().not().oneOf(['Passw0rd', 'Password123']);
+
+// Function to signup a new User 
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
+    if (schema.validate(req.body.password) && validateEmail(req.body.email)){
+        bcrypt.hash(req.body.password, 10)
     .then(hash => {
         const user = new User({
             email: req.body.email,
@@ -16,7 +45,12 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(400).json({ error }))
     })
     .catch(error => res.status(500).json({ error }))
+    } else {
+        return res.status(400).json({ message: 'bad request' })    
+    }
 }
+
+// Function to login a User
 
 exports.login = (req, res, next) => {
     User.findOne({
